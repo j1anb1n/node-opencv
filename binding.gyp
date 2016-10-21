@@ -16,6 +16,7 @@
         "src/FaceRecognizer.cc",
         "src/Features2d.cc",
         "src/BackgroundSubtractor.cc",
+        "src/BackgroundSubtractorKNN.cc",
         "src/Constants.cc",
         "src/Calib3D.cc",
         "src/ImgProc.cc",
