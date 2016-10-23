@@ -20,7 +20,6 @@ void Contour::Init(Local<Object> target) {
   Nan::SetPrototypeMethod(ctor, "point", Point);
   Nan::SetPrototypeMethod(ctor, "points", Points);
   Nan::SetPrototypeMethod(ctor, "size", Size);
-  Nan::SetPrototypeMethod(ctor, "cornerCount", CornerCount);
   Nan::SetPrototypeMethod(ctor, "area", Area);
   Nan::SetPrototypeMethod(ctor, "arcLength", ArcLength);
   Nan::SetPrototypeMethod(ctor, "approxPolyDP", ApproxPolyDP);
@@ -30,9 +29,6 @@ void Contour::Init(Local<Object> target) {
   Nan::SetPrototypeMethod(ctor, "fitEllipse", FitEllipse);
   Nan::SetPrototypeMethod(ctor, "isConvex", IsConvex);
   Nan::SetPrototypeMethod(ctor, "moments", Moments);
-  Nan::SetPrototypeMethod(ctor, "hierarchy", Hierarchy);
-  Nan::SetPrototypeMethod(ctor, "serialize", Serialize);
-  Nan::SetPrototypeMethod(ctor, "deserialize", Deserialize);
   target->Set(Nan::New("Contours").ToLocalChecked(), ctor->GetFunction());
 };
 
@@ -43,10 +39,25 @@ NAN_METHOD(Contour::New) {
     Nan::ThrowTypeError("Cannot instantiate without new");
   }
 
-  Contour *contours;
-  contours = new Contour;
+  Contour *contour;
 
-  contours->Wrap(info.Holder());
+  if (info[0]->IsArray()){
+    Local<Array> contour_data = Local<Array>::Cast(info[0]);
+    std::vector<cv::Point> points;
+    int contour_length = contour_data->Length();
+
+    for (int i = 0; i < contour_length; i++) {
+      Local<Array> point_data = Local<Array>::Cast(contour_data->Get(i));
+      int x = point_data->Get(0)->IntegerValue();
+      int y = point_data->Get(1)->IntegerValue();
+      points.push_back(cv::Point(x, y));
+    }
+    contour = new Contour(points);
+  } else {
+    contour = new Contour;
+  }
+
+  contour->Wrap(info.Holder());
   info.GetReturnValue().Set(info.Holder());
 }
 
@@ -54,14 +65,17 @@ Contour::Contour() :
     Nan::ObjectWrap() {
 }
 
+Contour::Contour(std::vector<cv::Point> points):Nan::ObjectWrap() {
+  contour = points;
+}
+
 NAN_METHOD(Contour::Point) {
   Nan::HandleScope scope;
 
   Contour *self = Nan::ObjectWrap::Unwrap<Contour>(info.This());
-  int pos = info[0]->NumberValue();
-  int index = info[1]->NumberValue();
+  int index = info[0]->NumberValue();
 
-  cv::Point point = self->contours[pos][index];
+  cv::Point point = self->contour[index];
 
   Local<Object> data = Nan::New<Object>();
   data->Set(Nan::New("x").ToLocalChecked(), Nan::New<Number>(point.x));
@@ -74,15 +88,13 @@ NAN_METHOD(Contour::Points) {
   Nan::HandleScope scope;
 
   Contour *self = Nan::ObjectWrap::Unwrap<Contour>(info.This());
-  int pos = info[0]->NumberValue();
 
-  std::vector<cv::Point> points = self->contours[pos];
-  Local<Array> data = Nan::New<Array>(points.size());
+  Local<Array> data = Nan::New<Array>(self->contour.size());
 
-  for (std::vector<int>::size_type i = 0; i != points.size(); i++) {
+  for (std::vector<int>::size_type i = 0; i != self->contour.size(); i++) {
     Local<Object> point_data = Nan::New<Object>();
-    point_data->Set(Nan::New<String>("x").ToLocalChecked(), Nan::New<Number>(points[i].x));
-    point_data->Set(Nan::New<String>("y").ToLocalChecked(), Nan::New<Number>(points[i].y));
+    point_data->Set(Nan::New<String>("x").ToLocalChecked(), Nan::New<Number>(self->contour[i].x));
+    point_data->Set(Nan::New<String>("y").ToLocalChecked(), Nan::New<Number>(self->contour[i].y));
 
     data->Set(i, point_data);
   }
@@ -98,49 +110,36 @@ NAN_METHOD(Contour::Size) {
 
   Contour *self = Nan::ObjectWrap::Unwrap<Contour>(info.This());
 
-  info.GetReturnValue().Set(Nan::New<Number>(self->contours.size()));
-}
-
-NAN_METHOD(Contour::CornerCount) {
-  Nan::HandleScope scope;
-
-  Contour *self = Nan::ObjectWrap::Unwrap<Contour>(info.This());
-  int pos = info[0]->NumberValue();
-
-  info.GetReturnValue().Set(Nan::New<Number>(self->contours[pos].size()));
+  info.GetReturnValue().Set(Nan::New<Number>(self->contour.size()));
 }
 
 NAN_METHOD(Contour::Area) {
   Nan::HandleScope scope;
 
   Contour *self = Nan::ObjectWrap::Unwrap<Contour>(info.This());
-  int pos = info[0]->NumberValue();
 
-  // info.GetReturnValue().Set(Nan::New<Number>(contourArea(self->contours)));
-  info.GetReturnValue().Set(Nan::New<Number>(contourArea(cv::Mat(self->contours[pos]))));
+  info.GetReturnValue().Set(Nan::New<Number>(contourArea(cv::Mat(self->contour))));
 }
 
 NAN_METHOD(Contour::ArcLength) {
   Nan::HandleScope scope;
 
   Contour *self = Nan::ObjectWrap::Unwrap<Contour>(info.This());
-  int pos = info[0]->NumberValue();
-  bool isClosed = info[1]->BooleanValue();
+  bool isClosed = info[0]->BooleanValue();
 
-  info.GetReturnValue().Set(Nan::New<Number>(arcLength(cv::Mat(self->contours[pos]), isClosed)));
+  info.GetReturnValue().Set(Nan::New<Number>(arcLength(cv::Mat(self->contour), isClosed)));
 }
 
 NAN_METHOD(Contour::ApproxPolyDP) {
   Nan::HandleScope scope;
 
   Contour *self = Nan::ObjectWrap::Unwrap<Contour>(info.This());
-  int pos = info[0]->NumberValue();
-  double epsilon = info[1]->NumberValue();
-  bool isClosed = info[2]->BooleanValue();
+  double epsilon = info[0]->NumberValue();
+  bool isClosed = info[1]->BooleanValue();
 
   cv::Mat approxed;
-  approxPolyDP(cv::Mat(self->contours[pos]), approxed, epsilon, isClosed);
-  approxed.copyTo(self->contours[pos]);
+  approxPolyDP(cv::Mat(self->contour), approxed, epsilon, isClosed);
+  approxed.copyTo(self->contour);
 
   info.GetReturnValue().Set(Nan::Null());
 }
@@ -150,12 +149,11 @@ NAN_METHOD(Contour::ConvexHull) {
 
   Contour *self = Nan::ObjectWrap::Unwrap<Contour>(info.This());
 
-  int pos = info[0]->NumberValue();
-  bool clockwise = info[1]->BooleanValue();
+  bool clockwise = info[0]->BooleanValue();
 
   cv::Mat hull;
-  cv::convexHull(cv::Mat(self->contours[pos]), hull, clockwise);
-  hull.copyTo(self->contours[pos]);
+  cv::convexHull(cv::Mat(self->contour), hull, clockwise);
+  hull.copyTo(self->contour);
 
   info.GetReturnValue().Set(Nan::Null());
 }
@@ -164,9 +162,8 @@ NAN_METHOD(Contour::BoundingRect) {
   Nan::HandleScope scope;
 
   Contour *self = Nan::ObjectWrap::Unwrap<Contour>(info.This());
-  int pos = info[0]->NumberValue();
 
-  cv::Rect bounding = cv::boundingRect(cv::Mat(self->contours[pos]));
+  cv::Rect bounding = cv::boundingRect(cv::Mat(self->contour));
   Local<Object> rect = Nan::New<Object>();
 
   rect->Set(Nan::New("x").ToLocalChecked(), Nan::New<Number>(bounding.x));
@@ -181,9 +178,8 @@ NAN_METHOD(Contour::MinAreaRect) {
   Nan::HandleScope scope;
 
   Contour *self = Nan::ObjectWrap::Unwrap<Contour>(info.This());
-  int pos = info[0]->NumberValue();
 
-  cv::RotatedRect minimum = cv::minAreaRect(cv::Mat(self->contours[pos]));
+  cv::RotatedRect minimum = cv::minAreaRect(cv::Mat(self->contour));
 
   Local<Object> rect = Nan::New<Object>();
   rect->Set(Nan::New("angle").ToLocalChecked(), Nan::New<Number>(minimum.angle));
@@ -218,10 +214,9 @@ NAN_METHOD(Contour::FitEllipse) {
   Nan::HandleScope scope;
 
   Contour *self = Nan::ObjectWrap::Unwrap<Contour>(info.This());
-  int pos = info[0]->NumberValue();
 
-  if (self->contours[pos].size() >= 5) {  // Minimum number for an ellipse
-    cv::RotatedRect ellipse = cv::fitEllipse(cv::Mat(self->contours[pos]));
+  if (self->contour.size() >= 5) {  // Minimum number for an ellipse
+    cv::RotatedRect ellipse = cv::fitEllipse(cv::Mat(self->contour));
 
     Local<Object> jsEllipse = Nan::New<Object>();
     jsEllipse->Set(Nan::New("angle").ToLocalChecked(), Nan::New<Number>(ellipse.angle));
@@ -246,19 +241,17 @@ NAN_METHOD(Contour::IsConvex) {
   Nan::HandleScope scope;
 
   Contour *self = Nan::ObjectWrap::Unwrap<Contour>(info.This());
-  int pos = info[0]->NumberValue();
 
-  info.GetReturnValue().Set(Nan::New<Boolean>(isContourConvex(cv::Mat(self->contours[pos]))));
+  info.GetReturnValue().Set(Nan::New<Boolean>(isContourConvex(cv::Mat(self->contour))));
 }
 
 NAN_METHOD(Contour::Moments) {
   Nan::HandleScope scope;
 
   Contour *self = Nan::ObjectWrap::Unwrap<Contour>(info.This());
-  int pos = info[0]->NumberValue();
 
   // Get the moments
-  cv::Moments mu = moments( self->contours[pos], false );
+  cv::Moments mu = moments( self->contour, false );
 
   Local<Object> res = Nan::New<Object>();
 
@@ -268,107 +261,4 @@ NAN_METHOD(Contour::Moments) {
   res->Set(Nan::New("m11").ToLocalChecked(), Nan::New<Number>(mu.m11));
 
   info.GetReturnValue().Set(res);
-}
-
-NAN_METHOD(Contour::Hierarchy) {
-  Nan::HandleScope scope;
-
-  Contour *self = Nan::ObjectWrap::Unwrap<Contour>(info.This());
-  int pos = info[0]->IntegerValue();
-
-  cv::Vec4i hierarchy = self->hierarchy[pos];
-
-  Local<Array> res = Nan::New<Array>(4);
-
-  res->Set(0, Nan::New<Number>(hierarchy[0]));
-  res->Set(1, Nan::New<Number>(hierarchy[1]));
-  res->Set(2, Nan::New<Number>(hierarchy[2]));
-  res->Set(3, Nan::New<Number>(hierarchy[3]));
-
-  info.GetReturnValue().Set(res);
-}
-
-NAN_METHOD(Contour::Serialize) {
-  Nan::HandleScope scope;
-
-  Contour *self = Nan::ObjectWrap::Unwrap<Contour>(info.This());
-
-  Local<Array> contours_data = Nan::New<Array>(self->contours.size());
-
-  for (std::vector<int>::size_type i = 0; i != self->contours.size(); i++) {
-    std::vector<cv::Point> points = self->contours[i];
-    Local<Array> contour_data = Nan::New<Array>(points.size());
-
-    for (std::vector<int>::size_type j = 0; j != points.size(); j++) {
-      Local<Array> point_data = Nan::New<Array>(2);
-      point_data->Set(0, Nan::New<Number>(points[j].x));
-      point_data->Set(1, Nan::New<Number>(points[j].y));
-
-      contour_data->Set(j, point_data);
-    }
-    contours_data->Set(i, contour_data);
-  }
-
-  Local<Array> hierarchy_data = Nan::New<Array>(self->hierarchy.size());
-  for (std::vector<int>::size_type i = 0; i != self->hierarchy.size(); i++) {
-    Local<Array> contour_data = Nan::New<Array>(4);
-    contour_data->Set(0, Nan::New<Number>(self->hierarchy[i][0]));
-    contour_data->Set(1, Nan::New<Number>(self->hierarchy[i][1]));
-    contour_data->Set(2, Nan::New<Number>(self->hierarchy[i][2]));
-    contour_data->Set(3, Nan::New<Number>(self->hierarchy[i][3]));
-
-    hierarchy_data->Set(i, contour_data);
-  }
-
-  Local<Object> data = Nan::New<Object>();
-  data->Set(Nan::New<String>("contours").ToLocalChecked(), contours_data);
-  data->Set(Nan::New<String>("hierarchy").ToLocalChecked(), hierarchy_data);
-
-  info.GetReturnValue().Set(data);
-}
-
-NAN_METHOD(Contour::Deserialize) {
-  Nan::HandleScope scope;
-
-  Contour *self = Nan::ObjectWrap::Unwrap<Contour>(info.This());
-
-  Local<Object> data = Local<Object>::Cast(info[0]);
-
-  Local<Array> contours_data = Local<Array>::Cast(data->Get(Nan::New<String>("contours").ToLocalChecked()));
-  Local<Array> hierarchy_data = Local<Array>::Cast(data->Get(Nan::New<String>("hierarchy").ToLocalChecked()));
-
-  std::vector<std::vector<cv::Point> > contours_res;
-  int contours_length = contours_data->Length();
-
-  for (int i = 0; i < contours_length; i++) {
-    Local<Array> contour_data = Local<Array>::Cast(contours_data->Get(i));
-    std::vector<cv::Point> points;
-
-    int contour_length = contour_data->Length();
-    for (int j = 0; j < contour_length; j++) {
-      Local<Array> point_data = Local<Array>::Cast(contour_data->Get(j));
-      int x = point_data->Get(0)->IntegerValue();
-      int y = point_data->Get(1)->IntegerValue();
-      points.push_back(cv::Point(x, y));
-    }
-
-    contours_res.push_back(points);
-  }
-
-  std::vector<cv::Vec4i> hierarchy_res;
-  int hierarchy_length = hierarchy_data->Length();
-
-  for (int i = 0; i < hierarchy_length; i++) {
-    Local<Array> contour_data = Local<Array>::Cast(hierarchy_data->Get(i));
-    int a = contour_data->Get(0)->IntegerValue();
-    int b = contour_data->Get(1)->IntegerValue();
-    int c = contour_data->Get(2)->IntegerValue();
-    int d = contour_data->Get(3)->IntegerValue();
-    hierarchy_res.push_back(cv::Vec4i(a, b, c, d));
-  }
-
-  self->contours = contours_res;
-  self->hierarchy = hierarchy_res;
-
-  info.GetReturnValue().Set(Nan::Null());
 }

@@ -1415,19 +1415,34 @@ NAN_METHOD(Matrix::Canny) {
   info.GetReturnValue().Set(Nan::Null());
 }
 
+// @author j1anb1n
+// Match Template filter
+// Usage: output = input.dilate(
+//  cv.Constants.MORPH_RECT,
+//  kernel_size=1
+// );
+
 NAN_METHOD(Matrix::Dilate) {
-  Nan::HandleScope scope;
+  SETUP_FUNCTION(Matrix)
 
-  Matrix *self = Nan::ObjectWrap::Unwrap<Matrix>(info.This());
-  int niters = info[0]->NumberValue();
+  int morphShape = cv::MORPH_RECT;
+  int ks = 1;
 
-  cv::Mat kernel = cv::Mat();
-  if (info.Length() == 2) {
-    Matrix *kernelMatrix = Nan::ObjectWrap::Unwrap<Matrix>(info[1]->ToObject());
-    kernel = kernelMatrix->mat;
+  if (info[0]->IsNumber()) {
+      morphShape = info[0]->IntegerValue();
   }
 
-  cv::dilate(self->mat, self->mat, kernel, cv::Point(-1, -1), niters);
+  if (info[1]->IsNumber()) {
+      ks = info[1]->IntegerValue();
+  }
+
+  cv::Mat el = cv::getStructuringElement(
+    morphShape,
+    cv::Size(ks*2+1, ks*2+1),
+    cv::Point(ks, ks)
+  );
+
+  cv::dilate(self->mat, self->mat, el);
 
   info.GetReturnValue().Set(Nan::Null());
 }
@@ -1450,6 +1465,7 @@ NAN_METHOD(Matrix::Erode) {
 
 NAN_METHOD(Matrix::FindContours) {
   Nan::HandleScope scope;
+  Matrix *self = Nan::ObjectWrap::Unwrap<Matrix>(info.This());
 
   int mode = CV_RETR_LIST;
   int chain = CV_CHAIN_APPROX_SIMPLE;
@@ -1462,14 +1478,38 @@ NAN_METHOD(Matrix::FindContours) {
     if (info[1]->IsNumber()) chain = info[1]->IntegerValue();
   }
 
-  Matrix *self = Nan::ObjectWrap::Unwrap<Matrix>(info.This());
-  Local<Object> conts_to_return= Nan::New(Contour::constructor)->GetFunction()->NewInstance();
-  Contour *contours = Nan::ObjectWrap::Unwrap<Contour>(conts_to_return);
+  std::vector<std::vector<cv::Point>> contours;
+  std::vector<cv::Vec4i> hierarchy;
 
-  cv::findContours(self->mat, contours->contours, contours->hierarchy, mode, chain);
+  cv::findContours(self->mat, contours, hierarchy, mode, chain);
+  Local<Array> contours_arr = Nan::New<Array>(contours.size());
+  Local<Array> hierarchy_arr = Nan::New<Array>(hierarchy.size());
+  Local<Object> ret = Nan::New<Object>();
 
-  info.GetReturnValue().Set(conts_to_return);
+  for (std::vector<int>::size_type i = 0; i != contours.size(); i++) {
+    // Nan::MaybeLocal<Object> cont = Nan::NewInstance(Nan::New(Contour::constructor)->GetFunction());
+    Local<Object> cont= Nan::New(Contour::constructor)->GetFunction()->NewInstance();
+    Contour *contPtr = Nan::ObjectWrap::Unwrap<Contour>(cont);
+    contPtr->contour = contours[i];
 
+    contours_arr->Set(i, cont);
+  }
+
+  for (std::vector<int>::size_type i = 0; i != hierarchy.size(); i++) {
+    Local<Array> res = Nan::New<Array>(4);
+
+    res->Set(0, Nan::New<Number>(hierarchy[i][0]));
+    res->Set(1, Nan::New<Number>(hierarchy[i][1]));
+    res->Set(2, Nan::New<Number>(hierarchy[i][2]));
+    res->Set(3, Nan::New<Number>(hierarchy[i][3]));
+
+    hierarchy_arr->Set(i, res);
+  }
+
+  ret->Set(Nan::New<String>("contours").ToLocalChecked(), contours_arr);
+  ret->Set(Nan::New<String>("hierarchy").ToLocalChecked(), hierarchy_arr);
+
+  info.GetReturnValue().Set(ret);
 }
 
 NAN_METHOD(Matrix::DrawContour) {
@@ -1477,16 +1517,18 @@ NAN_METHOD(Matrix::DrawContour) {
 
   Matrix *self = Nan::ObjectWrap::Unwrap<Matrix>(info.This());
   Contour *cont = Nan::ObjectWrap::Unwrap<Contour>(info[0]->ToObject());
-  int pos = info[1]->NumberValue();
   cv::Scalar color(0, 0, 255);
+  std::vector<std::vector<cv::Point> > contours;
 
-  if (info[2]->IsArray()) {
-    Local<Object> objColor = info[2]->ToObject();
+  contours.push_back(cont->contour);
+
+  if (info[1]->IsArray()) {
+    Local<Object> objColor = info[1]->ToObject();
     color = setColor(objColor);
   }
 
-  int thickness = info.Length() < 4 ? 1 : info[3]->NumberValue();
-  cv::drawContours(self->mat, cont->contours, pos, color, thickness);
+  int thickness = info.Length() < 3 ? 1 : info[2]->NumberValue();
+  cv::drawContours(self->mat, contours, 0, color, thickness);
 
   return;
 }
@@ -1495,7 +1537,14 @@ NAN_METHOD(Matrix::DrawAllContours) {
   Nan::HandleScope scope;
 
   Matrix *self = Nan::ObjectWrap::Unwrap<Matrix>(info.This());
-  Contour *cont = Nan::ObjectWrap::Unwrap<Contour>(info[0]->ToObject());
+  Local<Array> contours_data = Local<Array>::Cast(info[0]->ToObject());
+  std::vector<std::vector<cv::Point> > contours;
+
+  for (unsigned int i = 0; i < contours_data->Length(); i ++) {
+    Contour *cont = Nan::ObjectWrap::Unwrap<Contour>(contours_data->Get(i)->ToObject());
+    contours.push_back(cont->contour);
+  }
+
   cv::Scalar color(0, 0, 255);
 
   if (info[1]->IsArray()) {
@@ -1504,7 +1553,7 @@ NAN_METHOD(Matrix::DrawAllContours) {
   }
 
   int thickness = info.Length() < 3 ? 1 : info[2]->NumberValue();
-  cv::drawContours(self->mat, cont->contours, -1, color, thickness);
+  cv::drawContours(self->mat, contours, -1, color, thickness);
 
   return;
 }
