@@ -13,7 +13,7 @@ void Contour::Init(Local<Object> target) {
   Local<FunctionTemplate> ctor = Nan::New<FunctionTemplate>(Contour::New);
   constructor.Reset(ctor);
   ctor->InstanceTemplate()->SetInternalFieldCount(1);
-  ctor->SetClassName(Nan::New("Contours").ToLocalChecked());
+  ctor->SetClassName(Nan::New("Contour").ToLocalChecked());
 
   // Prototype
   // Local<ObjectTemplate> proto = constructor->PrototypeTemplate();
@@ -29,7 +29,9 @@ void Contour::Init(Local<Object> target) {
   Nan::SetPrototypeMethod(ctor, "fitEllipse", FitEllipse);
   Nan::SetPrototypeMethod(ctor, "isConvex", IsConvex);
   Nan::SetPrototypeMethod(ctor, "moments", Moments);
-  target->Set(Nan::New("Contours").ToLocalChecked(), ctor->GetFunction());
+  Nan::SetPrototypeMethod(ctor, "saveSync", SaveSync);
+  Nan::SetMethod(ctor, "loadSync", LoadSync);
+  target->Set(Nan::New("Contour").ToLocalChecked(), ctor->GetFunction());
 };
 
 NAN_METHOD(Contour::New) {
@@ -261,4 +263,56 @@ NAN_METHOD(Contour::Moments) {
   res->Set(Nan::New("m11").ToLocalChecked(), Nan::New<Number>(mu.m11));
 
   info.GetReturnValue().Set(res);
+}
+
+NAN_METHOD(Contour::LoadSync) {
+  Nan::HandleScope scope;
+
+  std::string filename = std::string(*Nan::Utf8String(info[0]->ToString()));
+  cv::FileStorage fs(filename, cv::FileStorage::READ);
+  std::vector<cv::Point> points;
+
+  if (!fs.isOpened()) {
+    Nan::ThrowError("Cannot load file");
+  }
+
+  cv::FileNode data = fs["points"];
+
+  if (data.type() != cv::FileNode::SEQ) {
+    Nan::ThrowError("Contour data is not a sequence!");
+  }
+
+  cv::FileNodeIterator it = data.begin(), it_end = data.end();
+
+  for (; it != it_end; ++it) {
+    points.push_back(cv::Point((int)(*it)["x"], (int)(*it)["y"]));
+  }
+
+  Local<Object> ret = Nan::New(Contour::constructor)->GetFunction()->NewInstance();
+  Contour *contour = new Contour(points);
+  contour->Wrap(ret);
+
+  fs.release();
+
+  info.GetReturnValue().Set(ret);
+}
+
+NAN_METHOD(Contour::SaveSync) {
+  SETUP_FUNCTION(Contour);
+  std::string filename = std::string(*Nan::Utf8String(info[0]->ToString()));
+  cv::FileStorage fs(filename, cv::FileStorage::WRITE);
+
+  if (!fs.isOpened()) {
+    Nan::ThrowError("Cannot load file");
+  }
+
+  fs << "points" << "[";
+  for (std::vector<int>::size_type i = 0; i != self->contour.size(); i++) {
+    fs << "{:" << "x" << self->contour[i].x << "y" << self->contour[i].y << "}";
+  }
+  fs << "]";
+
+  fs.release();
+
+  info.GetReturnValue().Set(Nan::Null());
 }

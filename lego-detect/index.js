@@ -1,7 +1,7 @@
 var cv = require('../lib/opencv');
 var cutImageByContour = require('./cut');
 
-// var camera = new cv.VideoCapture('/rtsp://192.168.1.127:8554/unicast');
+// var camera = new cv.VideoCapture('rtsp://192.168.1.127:8554/unicast');
 var camera = new cv.VideoCapture(0);
 var window = new cv.NamedWindow('Video', 0);
 var cutWindow = new cv.NamedWindow('Cut', 0);
@@ -37,7 +37,7 @@ function loop() {
        .sort(c => c.area());
 
     let cut = cutImageByContour(originFrame.copy(), cont[0]);
-    var hist = cut.calcHist([0, 1, 2], [8,8,8], [0, 256, 0, 256, 0, 256]);
+    var hist = cut.calcHist();
     if (prevHist) {
       console.log(cv.compareHist(hist, prevHist));
     }

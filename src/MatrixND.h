@@ -12,6 +12,9 @@ public:
 
   MatrixND();
   MatrixND(cv::MatND);
+
+  JSFUNC(SaveSync);
+  JSFUNC(LoadSync);
 };
 
 #endif

@@ -1,6 +1,5 @@
 #include "OpenCV.h"
 
-
 class Contour: public Nan::ObjectWrap {
 public:
   cv::Mat mat;
@@ -9,6 +8,7 @@ public:
   static Nan::Persistent<FunctionTemplate> constructor;
   static void Init(Local<Object> target);
   static NAN_METHOD(New);
+  static NAN_METHOD(LoadSync);
 
   Contour();
   Contour(std::vector<cv::Point>);
@@ -25,5 +25,6 @@ public:
   JSFUNC(FitEllipse)
   JSFUNC(IsConvex)
   JSFUNC(Moments)
+  JSFUNC(SaveSync)
 };
 

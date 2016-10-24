@@ -1,6 +1,7 @@
 #include "OpenCV.h"
 #include "Matrix.h"
 #include "MatrixND.h"
+#include "Contours.h"
 #include <nan.h>
 
 void OpenCV::Init(Local<Object> target) {
@@ -14,6 +15,7 @@ void OpenCV::Init(Local<Object> target) {
   Nan::SetMethod(target, "readImage", ReadImage);
   Nan::SetMethod(target, "findContours", FindContours);
   Nan::SetMethod(target, "compareHist", CompareHist);
+  Nan::SetMethod(target, "matchShape", MatchShape);
 }
 
 NAN_METHOD(OpenCV::ReadImage) {
@@ -159,4 +161,27 @@ NAN_METHOD(OpenCV::CompareHist) {
   double result = cv::compareHist(hist1->mat, hist2->mat, info[2]->IntegerValue());
 
   info.GetReturnValue().Set(Nan::New<Number>(result));
+}
+
+NAN_METHOD(OpenCV::MatchShape) {
+  Nan::HandleScope scope;
+
+  if (info.Length() < 3) {
+    Nan::ThrowTypeError("Argument length error");
+  }
+
+  Contour *cont1 = Nan::ObjectWrap::Unwrap<Contour>(info[0]->ToObject());
+  Contour *cont2 = Nan::ObjectWrap::Unwrap<Contour>(info[1]->ToObject());
+
+  int method;
+
+  if (info[2]->IsNumber()) {
+    method = info[2]->IntegerValue();
+  } else {
+    method = cv::HISTCMP_CORREL;
+  }
+
+  double ret = cv::compareHist(cont1->contour, cont2->contour, method);
+
+  info.GetReturnValue().Set(ret);
 }
