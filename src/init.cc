@@ -2,6 +2,7 @@
 
 #include "Point.h"
 #include "Matrix.h"
+#include "MatrixND.h"
 #include "CascadeClassifierWrap.h"
 #include "VideoCaptureWrap.h"
 #include "Contours.h"
@@ -23,6 +24,8 @@ extern "C" void init(Local<Object> target) {
 
   Point::Init(target);
   Matrix::Init(target);
+  MatrixND::Init(target);
+
   CascadeClassifierWrap::Init(target);
   VideoCaptureWrap::Init(target);
   Contour::Init(target);

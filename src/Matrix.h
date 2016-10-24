@@ -34,6 +34,7 @@ public:
   JSFUNC(PixelCol)
 
   JSFUNC(Size)
+  JSFUNC(Type)
   JSFUNC(Width)
   JSFUNC(Height)
   JSFUNC(Channels)
@@ -129,6 +130,8 @@ public:
   JSFUNC(Release)
 
   JSFUNC(Subtract)
+  JSFUNC(GetRectSubPix)
+  JSFUNC(CalcHist)
   /*
    static Handle<Value> Val(const Arguments& info);
    static Handle<Value> RowRange(const Arguments& info);

@@ -68,6 +68,7 @@ public:
 
   static NAN_METHOD(ReadImage);
   static NAN_METHOD(FindContours);
+  static NAN_METHOD(CompareHist);
 };
 
 #endif

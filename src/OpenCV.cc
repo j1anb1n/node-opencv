@@ -1,5 +1,6 @@
 #include "OpenCV.h"
 #include "Matrix.h"
+#include "MatrixND.h"
 #include <nan.h>
 
 void OpenCV::Init(Local<Object> target) {
@@ -12,6 +13,7 @@ void OpenCV::Init(Local<Object> target) {
 
   Nan::SetMethod(target, "readImage", ReadImage);
   Nan::SetMethod(target, "findContours", FindContours);
+  Nan::SetMethod(target, "compareHist", CompareHist);
 }
 
 NAN_METHOD(OpenCV::ReadImage) {
@@ -143,4 +145,18 @@ NAN_METHOD(OpenCV::FindContours) {
   data->Set(Nan::New<String>("hierarchy").ToLocalChecked(), hierarchy_data);
 
   info.GetReturnValue().Set(data);
+}
+
+NAN_METHOD(OpenCV::CompareHist) {
+  Nan::HandleScope scope;
+
+  if (info.Length() < 2) {
+    Nan::ThrowTypeError("Argument length error");
+  }
+
+  MatrixND *hist1 = Nan::ObjectWrap::Unwrap<MatrixND>(info[0]->ToObject());
+  MatrixND *hist2 = Nan::ObjectWrap::Unwrap<MatrixND>(info[1]->ToObject());
+  double result = cv::compareHist(hist1->mat, hist2->mat, info[2]->IntegerValue());
+
+  info.GetReturnValue().Set(Nan::New<Number>(result));
 }

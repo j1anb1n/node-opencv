@@ -1,5 +1,6 @@
 #include "Contours.h"
 #include "Matrix.h"
+#include "MatrixND.h"
 #include "OpenCV.h"
 #include <string.h>
 #include <nan.h>
@@ -36,6 +37,7 @@ void Matrix::Init(Local<Object> target) {
   Nan::SetPrototypeMethod(ctor, "width", Width);
   Nan::SetPrototypeMethod(ctor, "height", Height);
   Nan::SetPrototypeMethod(ctor, "size", Size);
+  Nan::SetPrototypeMethod(ctor, "type", Type);
   Nan::SetPrototypeMethod(ctor, "clone", Clone);
   Nan::SetPrototypeMethod(ctor, "crop", Crop);
   Nan::SetPrototypeMethod(ctor, "toBuffer", ToBuffer);
@@ -112,6 +114,8 @@ void Matrix::Init(Local<Object> target) {
   Nan::SetPrototypeMethod(ctor, "reshape", Reshape);
   Nan::SetPrototypeMethod(ctor, "release", Release);
   Nan::SetPrototypeMethod(ctor, "subtract", Subtract);
+  Nan::SetPrototypeMethod(ctor, "getRectSubPix", GetRectSubPix);
+  Nan::SetPrototypeMethod(ctor, "calcHist", CalcHist);
 
   target->Set(Nan::New("Matrix").ToLocalChecked(), ctor->GetFunction());
 };
@@ -491,6 +495,13 @@ NAN_METHOD(Matrix::Size) {
   arr->Set(1, Nan::New<Number>(self->mat.size().width));
 
   info.GetReturnValue().Set(arr);
+}
+
+NAN_METHOD(Matrix::Type) {
+  SETUP_FUNCTION(Matrix)
+  Local<Number> type = Nan::New<Number>(self->mat.type());
+
+  info.GetReturnValue().Set(type);
 }
 
 NAN_METHOD(Matrix::Clone) {
@@ -1067,7 +1078,7 @@ NAN_METHOD(Matrix::ConvertGrayscale) {
 
   cv::cvtColor(self->mat, self->mat, CV_BGR2GRAY);
 
-  info.GetReturnValue().Set(Nan::Null());
+  info.GetReturnValue().Set(info.This());
 }
 
 NAN_METHOD(Matrix::ConvertHSVscale) {
@@ -1444,7 +1455,7 @@ NAN_METHOD(Matrix::Dilate) {
 
   cv::dilate(self->mat, self->mat, el);
 
-  info.GetReturnValue().Set(Nan::Null());
+  info.GetReturnValue().Set(info.This());
 }
 
 NAN_METHOD(Matrix::Erode) {
@@ -1480,8 +1491,10 @@ NAN_METHOD(Matrix::FindContours) {
 
   std::vector<std::vector<cv::Point>> contours;
   std::vector<cv::Vec4i> hierarchy;
+  cv::Mat mat;
+  self->mat.copyTo(mat);
 
-  cv::findContours(self->mat, contours, hierarchy, mode, chain);
+  cv::findContours(mat, contours, hierarchy, mode, chain);
   Local<Array> contours_arr = Nan::New<Array>(contours.size());
   Local<Array> hierarchy_arr = Nan::New<Array>(hierarchy.size());
   Local<Object> ret = Nan::New<Object>();
@@ -2102,7 +2115,7 @@ NAN_METHOD(Matrix::CvtColor) {
 
   cv::cvtColor(self->mat, self->mat, iTransform);
 
-  return;
+  info.GetReturnValue().Set(info.This());
 }
 
 // @author SergeMv
@@ -2684,4 +2697,52 @@ NAN_METHOD(Matrix::Subtract) {
   self->mat -= other->mat;
 
   return;
+}
+
+NAN_METHOD(Matrix::GetRectSubPix) {
+  SETUP_FUNCTION(Matrix)
+
+  if (info.Length() < 2 || !info[0]->IsArray() || !info[1]->IsArray()) {
+    Nan::ThrowTypeError("Invalid arguments");
+  }
+
+  Local<Array> size = Local<Array>::Cast(info[0]->ToObject());
+  Local<Array> center = Local<Array>::Cast(info[1]->ToObject());
+
+  Local<Object> img_to_return =
+      Nan::New(Matrix::constructor)->GetFunction()->NewInstance();
+  Matrix *img = Nan::ObjectWrap::Unwrap<Matrix>(img_to_return);
+
+  cv::getRectSubPix(self->mat,
+    cv::Size(
+      size->Get(0)->IntegerValue(),
+      size->Get(1)->IntegerValue()),
+    cv::Point2f(
+      center->Get(0)->NumberValue(),
+      center->Get(1)->NumberValue()),
+    img->mat
+  );
+
+  info.GetReturnValue().Set(img_to_return);
+}
+
+NAN_METHOD(Matrix::CalcHist) {
+  SETUP_FUNCTION(Matrix)
+  Local<Object> ret =
+      Nan::New(MatrixND::constructor)->GetFunction()->NewInstance();
+  MatrixND *hist = Nan::ObjectWrap::Unwrap<MatrixND>(ret);
+
+  int histSize[] = {8,8,8};
+  float branges[] = { 0, 256 };
+  float granges[] = { 0, 256 };
+  float rranges[] = { 0, 256 };
+  const float* ranges[] = { branges, granges, rranges };
+  int channels[] = {0, 1, 2};
+
+  cv::calcHist(&self->mat, 1, channels, cv::Mat(), // do not use mask
+           hist->mat, 3, histSize, ranges,
+           true,
+           false);
+
+  info.GetReturnValue().Set(ret);
 }

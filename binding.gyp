@@ -21,7 +21,8 @@
         "src/Calib3D.cc",
         "src/ImgProc.cc",
         "src/Stereo.cc",
-        "src/LDAWrap.cc"
+        "src/LDAWrap.cc",
+        "src/MatrixND.cc"
       ],
 
       "libraries": [
