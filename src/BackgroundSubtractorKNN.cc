@@ -25,6 +25,7 @@ NAN_METHOD(BackgroundSubtractorKNNWrap::New) {
 
     if (info.This()->InternalFieldCount() == 0) {
       Nan::ThrowTypeError("Cannot instantiate without new");
+      return;
     }
 
     int history = 200;
@@ -62,6 +63,7 @@ NAN_METHOD(BackgroundSubtractorKNNWrap::Apply) {
 
     if (info.Length() == 0) {
         Nan::ThrowTypeError("Input image missing");
+        return;
     }
 
     try {
@@ -95,5 +97,6 @@ NAN_METHOD(BackgroundSubtractorKNNWrap::Apply) {
     } catch (cv::Exception& e) {
         const char* msg = e.what();
         Nan::ThrowError(msg);
+        return;
     }
 }

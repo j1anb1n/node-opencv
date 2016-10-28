@@ -25,7 +25,7 @@ function loop() {
     }
 
     frame = frame.cvtColor('CV_BGR2GRAY')
-         .threshold(0, 177, 'Binary Inverted', 'Otsu')
+         .threshold(0, 200, 'Binary Inverted', 'Otsu')
          .dilate(cv.Constants.MORPH_ELLIPSE, 3);
 
     var ret = frame.findContours(

@@ -2,41 +2,19 @@
 <html>
   <head>
     <title></title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-    <script src="https://cdn.socket.io/socket.io-1.4.5.js"></script>
-    <script src="http://zeptojs.com/zepto.min.js"></script>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link rel="stylesheet" href="./static/css/bootstrap.min.css">
+    <link rel="stylesheet" href="./static/css/font-awesome.min.css">
+    <link rel="stylesheet/less" type="text/css" href="./static/css/style.less" />
+    <script src="./static/socket.io-1.4.5.js"></script>
+    <script src="./static/react.js"></script>
+    <script src="./static/react-dom.js"></script>
+    <script src="./static/babel.min.js"></script>
+    <script src="./static/less.min.js"></script>
+    <script src="./static/underscore.min.js"></script>
   </head>
   <body>
-    <div class="container">
-      <div class="page-header">
-        <h1>lego brick recognition</h1>
-      </div>
-      <div class="row">
-        <div class="col-md-4">
-          <button class="btn btn-primary" type="button" id="capture">capture</button>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-md-4">
-          <img src="http://placehold.it/350x150" id="img">
-        </div>
-      </div>
-    </div>
-
-    <script>
-      var socket = io.connect('http://localhost:8123/');
-      socket.on('connected', function () {
-        console.log('connected');
-      });
-
-      socket.on('toke', function (data) {
-        $('#img').attr('src', 'data:image/jpeg;base64,' + data.data);
-      })
-
-      $('#capture').on('click', function () {
-        console.log('send');
-        socket.emit('take');
-      });
-    </script>
+    <div id="app"></div>
+    <script type="text/babel" src="./static/app.js"></script>
   </body>
 </html>

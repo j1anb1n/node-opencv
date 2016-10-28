@@ -5,6 +5,8 @@
   "author": "Peter Braden <peterbraden@peterbraden.co.uk>",
   "dependencies": {
     "buffers": "^0.1.1",
+    "eslint": "^3.8.1",
+    "eslint-plugin-react": "^6.4.1",
     "istanbul": "0.4.5",
     "nan": "^2.0.9",
     "node-pre-gyp": "^0.6.30"

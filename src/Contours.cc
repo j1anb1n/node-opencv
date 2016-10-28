@@ -17,6 +17,8 @@ void Contour::Init(Local<Object> target) {
 
   // Prototype
   // Local<ObjectTemplate> proto = constructor->PrototypeTemplate();
+  Nan::SetMethod(ctor, "loadSync", LoadSync);
+
   Nan::SetPrototypeMethod(ctor, "point", Point);
   Nan::SetPrototypeMethod(ctor, "points", Points);
   Nan::SetPrototypeMethod(ctor, "size", Size);
@@ -30,7 +32,6 @@ void Contour::Init(Local<Object> target) {
   Nan::SetPrototypeMethod(ctor, "isConvex", IsConvex);
   Nan::SetPrototypeMethod(ctor, "moments", Moments);
   Nan::SetPrototypeMethod(ctor, "saveSync", SaveSync);
-  Nan::SetMethod(ctor, "loadSync", LoadSync);
   target->Set(Nan::New("Contour").ToLocalChecked(), ctor->GetFunction());
 };
 
@@ -39,6 +40,7 @@ NAN_METHOD(Contour::New) {
 
   if (info.This()->InternalFieldCount() == 0) {
     Nan::ThrowTypeError("Cannot instantiate without new");
+    return;
   }
 
   Contour *contour;
@@ -67,7 +69,7 @@ Contour::Contour() :
     Nan::ObjectWrap() {
 }
 
-Contour::Contour(std::vector<cv::Point> points):Nan::ObjectWrap() {
+Contour::Contour(std::vector<cv::Point> points) {
   contour = points;
 }
 
@@ -274,12 +276,14 @@ NAN_METHOD(Contour::LoadSync) {
 
   if (!fs.isOpened()) {
     Nan::ThrowError("Cannot load file");
+    return;
   }
 
   cv::FileNode data = fs["points"];
 
   if (data.type() != cv::FileNode::SEQ) {
     Nan::ThrowError("Contour data is not a sequence!");
+    return;
   }
 
   cv::FileNodeIterator it = data.begin(), it_end = data.end();
@@ -289,8 +293,9 @@ NAN_METHOD(Contour::LoadSync) {
   }
 
   Local<Object> ret = Nan::New(Contour::constructor)->GetFunction()->NewInstance();
-  Contour *contour = new Contour(points);
-  contour->Wrap(ret);
+  Contour *contour = Nan::ObjectWrap::Unwrap<Contour>(ret);
+
+  contour->contour = points;
 
   fs.release();
 
@@ -304,6 +309,7 @@ NAN_METHOD(Contour::SaveSync) {
 
   if (!fs.isOpened()) {
     Nan::ThrowError("Cannot load file");
+    return;
   }
 
   fs << "points" << "[";

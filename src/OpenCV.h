@@ -70,6 +70,7 @@ public:
   static NAN_METHOD(FindContours);
   static NAN_METHOD(CompareHist);
   static NAN_METHOD(MatchShape);
+  static NAN_METHOD(ImRead);
 };
 
 #endif

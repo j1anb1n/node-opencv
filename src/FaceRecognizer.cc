@@ -224,6 +224,7 @@ NAN_METHOD(FaceRecognizerWrap::Train) {
 
   if (info.Length() < 2 || !(info[1]->IsFunction())) {
     Nan::ThrowTypeError("Invalid number of arguments or invalid callback");
+    return;
   }
 
   cv::vector<cv::Mat> images;

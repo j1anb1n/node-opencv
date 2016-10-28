@@ -124,6 +124,7 @@ NAN_METHOD(Matrix::New) {
   Nan::HandleScope scope;
   if (info.This()->InternalFieldCount() == 0) {
     Nan::ThrowTypeError("Cannot instantiate without new");
+    return;
   }
 
   Matrix *mat;
@@ -186,6 +187,7 @@ Matrix::Matrix(int rows, int cols, int type, Local<Object> scalarObj) {
     mat.setTo(cv::Scalar(scalarObj->Get(0)->IntegerValue()));
   } else {
     Nan::ThrowError("Only 1-3 channels are supported");
+    return;
   }
 }
 
@@ -296,6 +298,7 @@ NAN_METHOD(Matrix::Set) {
 
   } else {
     Nan::ThrowTypeError("Invalid number of arguments");
+    return;
   }
 
   return;
@@ -309,6 +312,7 @@ NAN_METHOD(Matrix::Put) {
 
   if (!Buffer::HasInstance(info[0])) {
     Nan::ThrowTypeError("Not a buffer");
+    return;
   }
   const char* buffer_data = Buffer::Data(info[0]);
   size_t buffer_length = Buffer::Length(info[0]);
@@ -355,6 +359,7 @@ NAN_METHOD(Matrix::Brightness) {
       cv::cvtColor(myimg, image, CV_GRAY2RGB);
     } else {
       Nan::ThrowError("those channels are not supported");
+      return;
     }
 
     cv::Mat new_image = cv::Mat::zeros( image.size(), image.type() );
@@ -409,10 +414,12 @@ int getNormType(int type) {
 NAN_METHOD(Matrix::Normalize) {
   if (!info[0]->IsNumber()) {
     Nan::ThrowTypeError("min is required (argument 1)");
+    return;
   }
 
   if (!info[1]->IsNumber()) {
     Nan::ThrowTypeError("max is required (argument 2)");
+    return;
   }
 
   int type = cv::NORM_MINMAX;
@@ -953,6 +960,7 @@ NAN_METHOD(Matrix::Save) {
 
   if (!info[0]->IsString()) {
     Nan::ThrowTypeError("filename required");
+    return;
   }
 
   Nan::Utf8String filename(info[0]);
@@ -1011,6 +1019,7 @@ NAN_METHOD(Matrix::SaveAsync) {
 
   if (!info[0]->IsString()) {
     Nan::ThrowTypeError("filename required");
+    return;
   }
 
   Nan::Utf8String filename(info[0]);
@@ -1074,6 +1083,7 @@ NAN_METHOD(Matrix::ConvertGrayscale) {
   Matrix *self = Nan::ObjectWrap::Unwrap<Matrix>(info.This());
   if (self->mat.channels() != 3) {
     Nan::ThrowError("Image is no 3-channel");
+    return;
   }
 
   cv::cvtColor(self->mat, self->mat, CV_BGR2GRAY);
@@ -1087,6 +1097,7 @@ NAN_METHOD(Matrix::ConvertHSVscale) {
   Matrix *self = Nan::ObjectWrap::Unwrap<Matrix>(info.This());
   if (self->mat.channels() != 3) {
     Nan::ThrowError("Image is no 3-channel");
+    return;
   }
 
   cv::Mat hsv;
@@ -1110,6 +1121,7 @@ NAN_METHOD(Matrix::GaussianBlur) {
   else {
     if (!info[0]->IsArray()) {
       Nan::ThrowTypeError("'ksize' argument must be a 2 double array");
+      return;
     }
     Local<Object> array = info[0]->ToObject();
     // TODO: Length check
@@ -1117,6 +1129,7 @@ NAN_METHOD(Matrix::GaussianBlur) {
     Local<Value> y = array->Get(1);
     if (!x->IsNumber() || !y->IsNumber()) {
       Nan::ThrowTypeError("'ksize' argument must be a 2 double array");
+      return;
     }
     ksize = cv::Size(x->NumberValue(), y->NumberValue());
   }
@@ -1124,7 +1137,7 @@ NAN_METHOD(Matrix::GaussianBlur) {
   cv::GaussianBlur(self->mat, blurred, ksize, 0);
   blurred.copyTo(self->mat);
 
-  info.GetReturnValue().Set(Nan::Null());
+  info.GetReturnValue().Set(info.This());
 }
 
 NAN_METHOD(Matrix::MedianBlur) {
@@ -1137,9 +1150,11 @@ NAN_METHOD(Matrix::MedianBlur) {
     ksize = info[0]->IntegerValue();
     if ((ksize % 2) == 0) {
       Nan::ThrowTypeError("'ksize' argument must be a positive odd integer");
+      return;
     }
   } else {
     Nan::ThrowTypeError("'ksize' argument must be a positive odd integer");
+    return;
   }
 
   cv::medianBlur(self->mat, blurred, ksize);
@@ -1161,6 +1176,7 @@ NAN_METHOD(Matrix::BilateralFilter) {
   if (info.Length() != 0) {
     if (info.Length() < 3 || info.Length() > 4) {
       Nan::ThrowTypeError("BilateralFilter takes 0, 3, or 4 arguments");
+      return;
     } else {
       d = info[0]->IntegerValue();
       sigmaColor = info[1]->NumberValue();
@@ -1180,8 +1196,9 @@ NAN_METHOD(Matrix::BilateralFilter) {
 NAN_METHOD(Matrix::Sobel) {
   Nan::HandleScope scope;
 
-  if (info.Length() < 3)
-    Nan::ThrowError("Need more arguments: sobel(ddepth, xorder, yorder, ksize=3, scale=1.0, delta=0.0, borderType=CV_BORDER_DEFAULT)");
+  if (info.Length() < 3) {
+    return Nan::ThrowError("Need more arguments: sobel(ddepth, xorder, yorder, ksize=3, scale=1.0, delta=0.0, borderType=CV_BORDER_DEFAULT)");
+  }
 
   int ddepth = info[0]->IntegerValue();
   int xorder = info[1]->IntegerValue();
@@ -1226,7 +1243,7 @@ NAN_METHOD(Matrix::Flip) {
   Matrix *self = Nan::ObjectWrap::Unwrap<Matrix>(info.This());
 
   if ( info.Length() < 1 || !info[0]->IsInt32() ) {
-    Nan::ThrowTypeError("Flip requires an integer flipCode argument "
+    return Nan::ThrowTypeError("Flip requires an integer flipCode argument "
         "(0 = X axis, positive = Y axis, negative = both axis)");
   }
 
@@ -1245,7 +1262,7 @@ NAN_METHOD(Matrix::ROI) {
   Matrix *self = Nan::ObjectWrap::Unwrap<Matrix>(info.This());
 
   if ( info.Length() != 4 ) {
-    Nan::ThrowTypeError("ROI requires x,y,w,h arguments");
+    return Nan::ThrowTypeError("ROI requires x,y,w,h arguments");
   }
 
   // Although it's an image to return, it is in fact a pointer to ROI of parent matrix
@@ -1303,7 +1320,7 @@ NAN_METHOD(Matrix::AddWeighted) {
     cv::addWeighted(src1->mat, alpha, src2->mat, beta, gamma, self->mat);
   } catch(cv::Exception& e ) {
     const char* err_msg = e.what();
-    Nan::ThrowError(err_msg);
+    return Nan::ThrowError(err_msg);
   }
 
   info.GetReturnValue().Set(Nan::Null());
@@ -1423,7 +1440,7 @@ NAN_METHOD(Matrix::Canny) {
 
   cv::Canny(self->mat, self->mat, lowThresh, highThresh);
 
-  info.GetReturnValue().Set(Nan::Null());
+  info.GetReturnValue().Set(info.This());
 }
 
 // @author j1anb1n
@@ -1881,63 +1898,8 @@ NAN_METHOD(Matrix::Threshold) {
   double maxVal = info[1]->NumberValue();
   int typ = cv::THRESH_BINARY;
 
-  if (info.Length() >= 3) {
-    Nan::Utf8String typstr(info[2]);
-
-    if (strcmp(*typstr, "Binary") == 0) {
-      // Uses default value
-    }
-    else if (strcmp(*typstr, "Binary Inverted") == 0) {
-      typ = cv::THRESH_BINARY_INV;
-    }
-    else if (strcmp(*typstr, "Threshold Truncated") == 0) {
-      typ = cv::THRESH_TRUNC;
-    }
-    else if (strcmp(*typstr, "Threshold to Zero") == 0) {
-      typ = cv::THRESH_TOZERO;
-    }
-    else if (strcmp(*typstr, "Threshold to Zero Inverted") == 0) {
-      typ = cv::THRESH_TOZERO_INV;
-    }
-    else {
-      char *typeString = *typstr;
-      char text[] = "\" is no supported binarization technique. "
-        "Use \"Binary\" (default), \"Binary Inverted\", "
-        "\"Threshold Truncated\", \"Threshold to Zero\" "
-        "or \"Threshold to Zero Inverted\"";
-      char *errorMessage;
-      errorMessage = new char[strlen(typeString) + strlen(text) + 2];
-      strcpy(errorMessage, "\"");
-      strcat(errorMessage, typeString);
-      strcat(errorMessage, text);
-
-      Nan::ThrowError(errorMessage);
-      return;
-    }
-  }
-
-  if (info.Length() >= 4) {
-    Nan::Utf8String algorithm(info[3]);
-
-    if (strcmp(*algorithm, "Simple") == 0) {
-        // Uses default
-    }
-    else if (strcmp(*algorithm, "Otsu") == 0) {
-      typ += 8;
-    }
-    else {
-      char *algo = *algorithm;
-      char text[] = "\" is no supported threshold algorithm. "
-        "Use \"Simple\" (default) or \"Otsu\".";
-      char *errorMessage;
-      errorMessage = new char[strlen(algo) + strlen(text) + 2];
-      strcpy(errorMessage, "\"");
-      strcat(errorMessage, algo);
-      strcat(errorMessage, text);
-
-      Nan::ThrowError(errorMessage);
-      return;
-    }
+  if (info[2]->IsNumber()) {
+    typ = info[2]->IntegerValue();
   }
 
   Local < Object > img_to_return =
@@ -2062,6 +2024,7 @@ NAN_METHOD(Matrix::CvtColor) {
   Matrix * self = Nan::ObjectWrap::Unwrap<Matrix>(info.This());
   if (info.Length() < 1) {
     Nan::ThrowTypeError("Invalid number of arguments");
+    return;
   }
 
   // Get transform string
@@ -2111,6 +2074,7 @@ NAN_METHOD(Matrix::CvtColor) {
   } else {
     iTransform = 0;  // to avoid compiler warning
     Nan::ThrowTypeError("Conversion code is unsupported");
+    return;
   }
 
   cv::cvtColor(self->mat, self->mat, iTransform);
@@ -2155,6 +2119,7 @@ NAN_METHOD(Matrix::Merge) {
   Matrix * self = Nan::ObjectWrap::Unwrap<Matrix>(info.This());
   if (!info[0]->IsArray()) {
     Nan::ThrowTypeError("The argument must be an array");
+    return;
   }
   v8::Local<v8::Array> jsChannels = v8::Local<v8::Array>::Cast(info[0]);
 
@@ -2690,6 +2655,7 @@ NAN_METHOD(Matrix::Subtract) {
 
   if (info.Length() < 1) {
     Nan::ThrowTypeError("Invalid number of arguments");
+    return;
   }
 
   Matrix *other = Nan::ObjectWrap::Unwrap<Matrix>(info[0]->ToObject());
@@ -2704,6 +2670,7 @@ NAN_METHOD(Matrix::GetRectSubPix) {
 
   if (info.Length() < 2 || !info[0]->IsArray() || !info[1]->IsArray()) {
     Nan::ThrowTypeError("Invalid arguments");
+    return;
   }
 
   Local<Array> size = Local<Array>::Cast(info[0]->ToObject());

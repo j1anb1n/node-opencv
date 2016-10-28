@@ -16,6 +16,7 @@ void OpenCV::Init(Local<Object> target) {
   Nan::SetMethod(target, "findContours", FindContours);
   Nan::SetMethod(target, "compareHist", CompareHist);
   Nan::SetMethod(target, "matchShape", MatchShape);
+  Nan::SetMethod(target, "imread", ImRead);
 }
 
 NAN_METHOD(OpenCV::ReadImage) {
@@ -178,10 +179,28 @@ NAN_METHOD(OpenCV::MatchShape) {
   if (info[2]->IsNumber()) {
     method = info[2]->IntegerValue();
   } else {
-    method = cv::HISTCMP_CORREL;
+    method = CV_CONTOURS_MATCH_I1;
   }
 
-  double ret = cv::compareHist(cont1->contour, cont2->contour, method);
+  double ret = cv::matchShapes(cont1->contour, cont2->contour, method, 0.0);
 
-  info.GetReturnValue().Set(ret);
+  info.GetReturnValue().Set(Nan::New<Number>(ret));
+}
+
+NAN_METHOD(OpenCV::ImRead) {
+  Nan::HandleScope scope;
+  Local<Object> img_to_return =
+      Nan::New(Matrix::constructor)->GetFunction()->NewInstance();
+  Matrix *img = Nan::ObjectWrap::Unwrap<Matrix>(img_to_return);
+
+  std::string filename = std::string(*Nan::Utf8String(info[0]->ToString()));
+  int mode = cv::IMREAD_COLOR;
+
+  if (info[1]->IsNumber()) {
+    mode = info[1]->IntegerValue();
+  }
+
+  img->mat = cv::imread(filename, mode);
+
+  info.GetReturnValue().Set(img_to_return);
 }
