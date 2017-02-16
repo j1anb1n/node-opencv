@@ -1,0 +1,167 @@
+Type	Item No	Item Name	Qty	Color ID	Extra?	Alternate?	Match ID	Counterpart?
+
+P	11478	Technic, Liftarm 1 x 5 Thin with Axle Holes on Ends	12	11	N	N	0	N	
+P	15038	Wheel 56mm D. x 34mm Technic Racing Medium, 6 Pin Holes	4	11	N	N	0	N	
+P	15100	Technic, Pin with Friction Ridges Lengthwise and Pin Hole	12	11	N	N	0	N	
+P	15458	Technic, Panel Plate 3 x 11 x 1	6	11	N	N	0	N	
+P	2739a	Technic, Link 1 x 6 without Stoppers	4	11	N	N	0	N	
+P	2780	Technic, Pin with Friction Ridges Lengthwise WITH Center Slots	241	11	N	N	0	N	
+P	2825	Technic, Liftarm 1 x 4 Thin with Stud Connector	2	11	N	N	0	N	
+P	32015	Technic, Axle and Pin Connector Angled #5 - 112.5 degrees	2	11	N	N	0	N	
+P	32034	Technic, Axle and Pin Connector Angled #2 - 180 degrees	5	11	N	N	0	N	
+P	32054	Technic, Pin 3L with Friction Ridges Lengthwise and Stop Bush	4	11	N	N	0	N	
+P	32072	Technic Knob Wheel	4	11	N	N	0	N	
+P	32140	Technic, Liftarm 2 x 4 L-Shape Thick	18	11	N	N	0	N	
+P	32199	Hose, Soft Axle 11	2	11	N	N	0	N	
+P	32269	Technic, Gear 20 Tooth Double Bevel	3	11	N	N	0	N	
+P	32270	Technic, Gear 12 Tooth Double Bevel	6	11	N	N	0	N	
+P	32278	Technic, Liftarm 1 x 15 Thick	10	11	N	N	0	N	
+P	32316	Technic, Liftarm 1 x 5 Thick	6	11	N	N	0	N	
+P	32524	Technic, Liftarm 1 x 7 Thick	7	11	N	N	0	N	
+P	32525	Technic, Liftarm 1 x 11 Thick	5	11	N	N	0	N	
+P	32526	Technic, Liftarm 3 x 5 L-Shape Thick	5	11	N	N	0	N	
+P	3705	Technic, Axle 4	13	11	N	N	0	N	
+P	3706	Technic, Axle 6	15	11	N	N	0	N	
+P	3737	Technic, Axle 10	1	11	N	N	0	N	
+P	40490	Technic, Liftarm 1 x 9 Thick	12	11	N	N	0	N	
+P	42003	Technic, Axle and Pin Connector Perpendicular 3L with 2 Pin Holes	10	11	N	N	0	N	
+P	44771	Tire 68.8 x 36 ZR	4	11	N	N	0	N	
+P	60484	Technic, Liftarm 3 x 3 T-Shape Thick	14	11	N	N	0	N	
+P	63869	Technic, Axle and Pin Connector Perpendicular Triple	7	11	N	N	0	N	
+P	64782	Technic, Panel Plate 5 x 11 x 1	2	11	N	N	0	N	
+P	6536	Technic, Axle and Pin Connector Perpendicular	14	11	N	N	0	N	
+P	6538c	Technic, Axle Connector 2L (Smooth with x Hole + Orientation)	13	11	N	N	0	N	
+P	6628	Technic, Pin with Friction Ridges Lengthwise and Towball	8	11	N	N	0	N	
+P	6629	Technic, Liftarm 1 x 9 Bent (6 - 4) Thick	2	11	N	N	0	N	
+P	87408	Technic, Pin Connector Toggle Joint Smooth Double with Axle and Pin Holes	3	11	N	N	0	N	
+P	87761	Technic, Gear Rack 1 x 7 with Axle and Pin Holes	1	11	N	N	0	N	
+P	4274	Technic, Pin 1/2	6	7	N	N	0	N	
+P	43093	Technic, Axle Pin with Friction Ridges Lengthwise	43	7	N	N	0	N	
+P	6558	Technic, Pin 3L with Friction Ridges Lengthwise	113	7	N	N	0	N	
+P	15458	Technic, Panel Plate 3 x 11 x 1	4	36	N	N	0	N	
+P	32316	Technic, Liftarm 1 x 5 Thick	6	36	N	N	0	N	
+P	32524	Technic, Liftarm 1 x 7 Thick	6	36	N	N	0	N	
+P	32525	Technic, Liftarm 1 x 11 Thick	4	36	N	N	0	N	
+P	42003	Technic, Axle and Pin Connector Perpendicular 3L with 2 Pin Holes	30	36	N	N	0	N	
+P	64391	Technic, Panel Fairing # 4 Small Smooth Long, Side B	5	36	N	N	0	N	
+P	64393	Technic, Panel Fairing # 6 Long Smooth, Side B	2	36	N	N	0	N	
+P	64681	Technic, Panel Fairing # 5 Long Smooth, Side A	2	36	N	N	0	N	
+P	64683	Technic, Panel Fairing # 3 Small Smooth Long, Side A	5	36	N	N	0	N	
+P	6536	Technic, Axle and Pin Connector Perpendicular	4	36	N	N	0	N	
+P	10928	Technic, Gear 8 Tooth Type 2	3	85	N	N	0	N	
+P	11214	Technic, Axle Pin 3L with Friction Ridges Lengthwise and 1L Axle	21	85	N	N	0	N	
+P	18947	Technic Driving Ring 3L	1	85	N	N	0	N	
+P	3648	Technic, Gear 24 Tooth (New Style with Single Axle Hole)	1	85	N	N	0	N	
+P	55013	Technic, Axle 8 with Stop	1	85	N	N	0	N	
+P	57515	Technic, Steering Arm 6 x 2 with Towball Socket Rounded, Chamfered	4	85	N	N	0	N	
+P	62821b	Technic, Gear Differential with Inner Tabs and Closed Center, 28 Bevel Teeth	1	85	N	N	0	N	
+P	6542b	Technic, Gear 16 Tooth with Clutch, Smooth	2	85	N	N	0	N	
+P	87083	Technic, Axle 4 with Stop	13	85	N	N	0	N	
+P	92906	Technic, Steering CV Joint Axle	2	85	N	N	0	N	
+P	92909	Technic, Steering Wheel Hub 3 Pin Round	4	85	N	N	0	N	
+P	15462	Technic, Axle 5 with Stop	2	69	N	N	0	N	
+P	6587	Technic, Axle 3 with Stud	5	69	N	N	0	N	
+P	78c11	Hose, Ribbed 7mm D. 11L	2	95	N	N	0	N	
+P	11949	Technic, Steering Wheel Hub Holder with 2 Pin Holes and 2 Ball Joint Arms	2	86	N	N	0	N	
+P	11950	Technic, Steering Wheel Hub Holder with 2 Pin Holes	2	86	N	N	0	N	
+P	18677	Plate, Modified 1 x 2 with Pin Hole on Bottom	2	86	N	N	0	N	
+P	2412b	Tile, Modified 1 x 2 Grille with Bottom Groove / Lip	2	86	N	N	0	N	
+P	2736	Technic, Axle Towball	2	86	N	N	0	N	
+P	2819	Technic, Steering Wheel Small, 3 Studs Diameter	1	86	N	N	0	N	
+P	2852	Technic Engine Connecting Rod	8	86	N	N	0	N	
+P	3024	Plate 1 x 1	2	86	N	N	0	N	
+P	32015	Technic, Axle and Pin Connector Angled #5 - 112.5 degrees	4	86	N	N	0	N	
+P	32017	Technic, Liftarm 1 x 5 Thin	4	86	N	N	0	N	
+P	32054	Technic, Pin 3L with Friction Ridges Lengthwise and Stop Bush	17	86	N	N	0	N	
+P	32068	Technic, Axle and Pin Connector Perpendicular 3L with Pin Hole	2	86	N	N	0	N	
+P	32073	Technic, Axle 5	13	86	N	N	0	N	
+P	32140	Technic, Liftarm 2 x 4 L-Shape Thick	9	86	N	N	0	N	
+P	32291	Technic, Axle and Pin Connector Perpendicular Double	2	86	N	N	0	N	
+P	32316	Technic, Liftarm 1 x 5 Thick	11	86	N	N	0	N	
+P	32333	Technic, Pin Connector Block 1 x 5 x 3	2	86	N	N	0	N	
+P	32348	Technic, Liftarm 1 x 7 Bent (4 - 4) Thick	1	86	N	N	0	N	
+P	32494	Technic, Steering CV Joint	4	86	N	N	0	N	
+P	32524	Technic, Liftarm 1 x 7 Thick	13	86	N	N	0	N	
+P	32526	Technic, Liftarm 3 x 5 L-Shape Thick	10	86	N	N	0	N	
+P	33299	Technic, Liftarm 1 x 3 with 2 Axle Holes and Pin / Crank	4	86	N	N	0	N	
+P	3623	Plate 1 x 3	2	86	N	N	0	N	
+P	3713	Technic Bush	38	86	N	N	0	N	
+P	3941	Brick, Round 2 x 2 with Axle Hole	2	86	N	N	0	N	
+P	41239	Technic, Liftarm 1 x 13 Thick	11	86	N	N	0	N	
+P	44294	Technic, Axle 7	8	86	N	N	0	N	
+P	44809	Technic, Pin Connector Perpendicular 2 x 2 Bent	2	86	N	N	0	N	
+P	4519	Technic, Axle 3	31	86	N	N	0	N	
+P	4716	Technic, Gear Worm Screw	2	86	N	N	0	N	
+P	553c	Brick, Round 2 x 2 Dome Top - Hollow Stud with Bottom Axle Holder x Shape + Orientation	2	86	N	N	0	N	
+P	55615	Technic, Pin Connector Perpendicular 3 x 3 Bent with 4 Pins	4	86	N	N	0	N	
+P	60483	Technic, Liftarm 1 x 2 Thick with Pin Hole and Axle Hole	13	86	N	N	0	N	
+P	60485	Technic, Axle 9	4	86	N	N	0	N	
+P	61184	Technic, Pin 1/2 with 2L Bar Extension (Flick Missile)	2	86	N	N	0	N	
+P	61678	Slope, Curved 4 x 1 No Studs	2	86	N	N	0	N	
+P	62462	Technic, Pin Connector Round 2L with Slot (Pin Joiner Round)	4	86	N	N	0	N	
+P	64178	Technic, Liftarm 5 x 11 Open Center Frame Thick	3	86	N	N	0	N	
+P	64179	Technic, Liftarm 5 x 7 Open Center Frame Thick	1	86	N	N	0	N	
+P	87082	Technic, Pin 3L with Friction Ridges Lengthwise and Center Pin Hole	6	86	N	N	0	N	
+P	94925	Technic, Gear 16 Tooth (New Style Reinforced)	4	86	N	N	0	N	
+P	18946	Technic, Gear 16 Tooth with Clutch on Both Sides	2	5	N	N	0	N	
+P	32009	Technic, Liftarm 1 x 11.5 Double Bent Thick	2	5	N	N	0	N	
+P	32014	Technic, Axle and Pin Connector Angled #6 - 90 degrees	1	5	N	N	0	N	
+P	32039	Technic, Axle Connector with Axle Hole	4	5	N	N	0	N	
+P	32062	Technic, Axle 2 Notched	16	5	N	N	0	N	
+P	32184	Technic, Axle and Pin Connector Perpendicular 3L with Center Pin Hole	6	5	N	N	0	N	
+P	3832	Plate 2 x 10	1	5	N	N	0	N	
+P	4162	Tile 1 x 8	2	5	N	N	0	N	
+P	6629	Technic, Liftarm 1 x 9 Bent (6 - 4) Thick	2	5	N	N	0	N	
+P	6641	Technic Changeover Catch	1	5	N	N	0	N	
+P	2854	Technic Engine Crankshaft Center	3	2	N	N	0	N	
+P	32002	Technic, Pin 3/4	6	2	N	N	0	N	
+P	32198	Technic, Gear 20 Tooth Bevel	1	2	N	N	0	N	
+P	32556	Technic, Pin 3L without Friction Ridges Lengthwise	6	2	N	N	0	N	
+P	3749	Technic, Axle Pin without Friction Ridges Lengthwise	2	2	N	N	0	N	
+P	6589	Technic, Gear 12 Tooth Bevel	6	2	N	N	0	N	
+P	4073	Plate, Round 1 x 1 Straight Side	2	12	N	N	0	N	
+P	43898	Dish 3 x 3 Inverted (Radar)	2	12	N	N	0	N	
+P	4740	Dish 2 x 2 Inverted (Radar)	2	12	N	N	0	N	
+P	4073	Plate, Round 1 x 1 Straight Side	4	17	N	N	0	N	
+P	15458	Technic, Panel Plate 3 x 11 x 1	1	1	N	N	0	N	
+P	18948	Technic, Driving Ring Connector	1	1	N	N	0	N	
+P	32009	Technic, Liftarm 1 x 11.5 Double Bent Thick	4	1	N	N	0	N	
+P	32013	Technic, Axle and Pin Connector Angled #1	14	1	N	N	0	N	
+P	32015	Technic, Axle and Pin Connector Angled #5 - 112.5 degrees	2	1	N	N	0	N	
+P	32140	Technic, Liftarm 2 x 4 L-Shape Thick	4	1	N	N	0	N	
+P	32235	Hose, Soft Axle 19	3	1	N	N	0	N	
+P	32316	Technic, Liftarm 1 x 5 Thick	5	1	N	N	0	N	
+P	32523	Technic, Liftarm 1 x 3 Thick	7	1	N	N	0	N	
+P	32525	Technic, Liftarm 1 x 11 Thick	1	1	N	N	0	N	
+P	40490	Technic, Liftarm 1 x 9 Thick	2	1	N	N	0	N	
+P	41239	Technic, Liftarm 1 x 13 Thick	7	1	N	N	0	N	
+P	62462	Technic, Pin Connector Round 2L with Slot (Pin Joiner Round)	10	1	N	N	0	N	
+P	62531	Technic, Panel Curved 11 x 3 with 2 Pin Holes through Panel Surface	2	1	N	N	0	N	
+P	64392	Technic, Panel Fairing #17 Large Smooth, Side A	1	1	N	N	0	N	
+P	64393	Technic, Panel Fairing # 6 Long Smooth, Side B	3	1	N	N	0	N	
+P	64681	Technic, Panel Fairing # 5 Long Smooth, Side A	3	1	N	N	0	N	
+P	64682	Technic, Panel Fairing #18 Large Smooth, Side B	1	1	N	N	0	N	
+P	87080	Technic, Panel Fairing # 1 Small Smooth Short, Side A	1	1	N	N	0	N	
+P	87086	Technic, Panel Fairing # 2 Small Smooth Short, Side B	1	1	N	N	0	N	
+P	2851	Technic Engine Piston Round	8	3	N	N	0	N	
+P	2853	Technic Engine Crankshaft	2	3	N	N	0	N	
+P	4265c	Technic Bush 1/2 Smooth	8	3	N	N	0	N	
+P	6538c	Technic, Axle Connector 2L (Smooth with x Hole + Orientation)	9	3	N	N	0	N	
+P	731c04	Technic, Shock Absorber 6.5L, Complete Assembly - Hard Spring	4	3	N	N	0	N	
+P	2780	Technic, Pin with Friction Ridges Lengthwise WITH Center Slots	5	11	Y	N	0	N	
+P	6628	Technic, Pin with Friction Ridges Lengthwise and Towball	1	11	Y	N	0	N	
+P	43093	Technic, Axle Pin with Friction Ridges Lengthwise	2	7	Y	N	0	N	
+P	4274	Technic, Pin 1/2	1	7	Y	N	0	N	
+P	3024	Plate 1 x 1	1	86	Y	N	0	N	
+P	3713	Technic Bush	2	86	Y	N	0	N	
+P	6589	Technic, Gear 12 Tooth Bevel	1	2	Y	N	0	N	
+P	32002	Technic, Pin 3/4	1	2	Y	N	0	N	
+P	4073	Plate, Round 1 x 1 Straight Side	1	12	Y	N	0	N	
+P	4073	Plate, Round 1 x 1 Straight Side	1	17	Y	N	0	N	
+P	4265c	Technic Bush 1/2 Smooth	1	3	Y	N	0	N	
+P	18944	Technic, Panel Curved 3 x 13	8	36	N	N	0	N	
+P	42039stk01	Sticker for Set 42039	1	0	N	N	0	N	
+P	2850b	Technic Engine Cylinder without Side Slots	8	86	N	N	0	N	
+P	11949c01	Technic, Steering Axle with 2 Pin Holes and 2 Ball Joint Arms, Complete Assembly with Dark Bluish Gray Wheel Hub	2	86	N	N	0	Y	
+P	11950c01	Technic, Steering Axle with 2 Pin Holes, Complete Assembly with Dark Bluish Gray Wheel Hub	2	86	N	N	0	Y	
+P	15038c04	Wheel 56mm D. x 34mm Technic Racing Medium, 6 Pin Holes with Black Tire 68.8 x 36 ZR (15038 / 44771)	4	11	N	N	0	Y	

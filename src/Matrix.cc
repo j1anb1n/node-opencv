@@ -43,6 +43,7 @@ void Matrix::Init(Local<Object> target) {
   Nan::SetPrototypeMethod(ctor, "toBuffer", ToBuffer);
   Nan::SetPrototypeMethod(ctor, "toBufferAsync", ToBufferAsync);
   Nan::SetPrototypeMethod(ctor, "ellipse", Ellipse);
+  Nan::SetPrototypeMethod(ctor, "circle", Circle);
   Nan::SetPrototypeMethod(ctor, "rectangle", Rectangle);
   Nan::SetPrototypeMethod(ctor, "line", Line);
   Nan::SetPrototypeMethod(ctor, "fillPoly", FillPoly);
@@ -155,22 +156,22 @@ NAN_METHOD(Matrix::New) {
 }
 
 Matrix::Matrix() :
-    node_opencv::Matrix() {
+    Nan::ObjectWrap() {
   mat = cv::Mat();
 }
 
 Matrix::Matrix(int rows, int cols) :
-    node_opencv::Matrix() {
+    Nan::ObjectWrap() {
   mat = cv::Mat(rows, cols, CV_32FC3);
 }
 
 Matrix::Matrix(int rows, int cols, int type) :
-    node_opencv::Matrix() {
+    Nan::ObjectWrap() {
   mat = cv::Mat(rows, cols, type);
 }
 
 Matrix::Matrix(cv::Mat m, cv::Rect roi) :
-    node_opencv::Matrix() {
+    Nan::ObjectWrap() {
   mat = cv::Mat(m, roi);
 }
 
@@ -853,6 +854,26 @@ NAN_METHOD(Matrix::Ellipse) {
   cv::ellipse(self->mat, cv::Point(x, y), cv::Size(width, height), angle,
       startAngle, endAngle, color, thickness, lineType, shift);
   info.GetReturnValue().Set(Nan::Null());
+}
+
+NAN_METHOD(Matrix::Circle) {
+  SETUP_FUNCTION(Matrix)
+  cv::Scalar color(0, 0, 255);
+  Local<Object> objCircle = info[0]->ToObject();
+  Local<Object> objColor = info[1]->ToObject();
+  int w = info[2]->IntegerValue();
+
+  color = setColor(objColor);
+
+  cv::Point center = cv::Point(
+    objCircle->Get(0)->IntegerValue(),
+    objCircle->Get(1)->IntegerValue()
+  );
+  int r = objCircle->Get(2)->IntegerValue();
+
+  cv::circle(self->mat, center, r, color, w, cv::LINE_AA);
+
+  info.GetReturnValue().Set(info.This());
 }
 
 NAN_METHOD(Matrix::Rectangle) {
@@ -1547,8 +1568,8 @@ NAN_METHOD(Matrix::DrawContour) {
 
   Matrix *self = Nan::ObjectWrap::Unwrap<Matrix>(info.This());
   Contour *cont = Nan::ObjectWrap::Unwrap<Contour>(info[0]->ToObject());
-  cv::Scalar color(0, 0, 255);
   std::vector<std::vector<cv::Point> > contours;
+  cv::Scalar color(0, 0, 255);
 
   contours.push_back(cont->contour);
 
@@ -1655,11 +1676,11 @@ NAN_METHOD(Matrix::HoughCircles) {
   int maxRadius = info.Length() < 6 ? 0 : info[5]->Uint32Value();
   std::vector<cv::Vec3f> circles;
 
-  cv::Mat gray;
+  // cv::Mat gray;
 
-  equalizeHist(self->mat, gray);
+  // equalizeHist(self->mat, gray);
 
-  cv::HoughCircles(gray, circles, CV_HOUGH_GRADIENT, dp, minDist,
+  cv::HoughCircles(self->mat, circles, CV_HOUGH_GRADIENT, dp, minDist,
       higherThreshold, accumulatorThreshold, minRadius, maxRadius);
 
   v8::Local<v8::Array> arr = Nan::New<Array>(circles.size());
@@ -1902,14 +1923,9 @@ NAN_METHOD(Matrix::Threshold) {
     typ = info[2]->IntegerValue();
   }
 
-  Local < Object > img_to_return =
-      Nan::New(Matrix::constructor)->GetFunction()->NewInstance();
-  Matrix *img = Nan::ObjectWrap::Unwrap<Matrix>(img_to_return);
-  self->mat.copyTo(img->mat);
+  cv::threshold(self->mat, self->mat, threshold, maxVal, typ);
 
-  cv::threshold(self->mat, img->mat, threshold, maxVal, typ);
-
-  info.GetReturnValue().Set(img_to_return);
+  info.GetReturnValue().Set(info.This());
 }
 
 NAN_METHOD(Matrix::AdaptiveThreshold) {
@@ -1921,15 +1937,10 @@ NAN_METHOD(Matrix::AdaptiveThreshold) {
   double blockSize = info[3]->NumberValue();
   double C = info[4]->NumberValue();
 
-  Local < Object > img_to_return =
-      Nan::New(Matrix::constructor)->GetFunction()->NewInstance();
-  Matrix *img = Nan::ObjectWrap::Unwrap<Matrix>(img_to_return);
-  self->mat.copyTo(img->mat);
-
-  cv::adaptiveThreshold(self->mat, img->mat, maxVal, adaptiveMethod,
+  cv::adaptiveThreshold(self->mat, self->mat, maxVal, adaptiveMethod,
       thresholdType, blockSize, C);
 
-  info.GetReturnValue().Set(img_to_return);
+  info.GetReturnValue().Set(info.This());
 }
 
 NAN_METHOD(Matrix::MeanStdDev) {
@@ -2159,7 +2170,8 @@ NAN_METHOD(Matrix::FloodFill) {
       }); */
 
   if (info.Length() < 1 || !info[0]->IsObject()) {
-    // error
+    Nan::ThrowTypeError("The argument must be an object");
+    return;
   }
 
   Local < Object > obj = info[0]->ToObject();

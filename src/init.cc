@@ -17,6 +17,7 @@
 #include "BackgroundSubtractor.h"
 #include "BackgroundSubtractorKNN.h"
 #include "LDAWrap.h"
+#include "GeneralizedHough.h"
 
 extern "C" void init(Local<Object> target) {
   Nan::HandleScope scope;
@@ -34,6 +35,7 @@ extern "C" void init(Local<Object> target) {
   Constants::Init(target);
   Calib3D::Init(target);
   ImgProc::Init(target);
+  GeneralizedHoughGuilWrap::Init(target);
 #if CV_MAJOR_VERSION >= 3
   BackgroundSubtractorKNNWrap::Init(target);
 #endif

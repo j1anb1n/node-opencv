@@ -4,7 +4,9 @@
     "globals": {
         "Promise": true,
         "React": true,
-        "ReactDOM": true
+        "ReactDOM": true,
+        "_": true,
+        "$": true
     },
     "env": {
         "browser": true,

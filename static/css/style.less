@@ -162,38 +162,23 @@
     -webkit-box-align: end;
 }
 
-
+.rect {
+  position: absolute;
+  border: 3px solid green;
+  top: 0;
+  left: 0;
+  transform-origin: top left;
+}
 .video-capture {
   width: 100%;
   height: auto;
 }
+.video {
+  position: relative;
+}
 .object-panel {
-  .media {
-    .thumbnail {
-      height: 90px;
-      width: 90px;
-    }
-    img {
-      display: block;
-      max-width: 80px;
-      max-height: 80px;
-    }
-  }
 
 }
-.object-panel .object-origin-image {
-  width: 120px;
-  height: 120px;
-}
-.object-panel .object-origin-image img {
-  display: block;
-  max-width: 110px;
-  max-height: 110px;
-}
-.object-panel .panel-heading {
-  padding: 10px;
-}
-
 .mask {
   position: fixed;
   top: 0;
@@ -201,6 +186,13 @@
   right: 0;
   bottom: 0;
   background-color: rgba(0,0,0,.4);
+}
+
+.images {
+  width: 360px;
+  img {
+    max-width: 100px;
+  }
 }
 
 .pop-up .content {

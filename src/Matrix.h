@@ -1,9 +1,9 @@
 
 #include "OpenCV.h"
-#include "../inc/Matrix.h"
 
-class Matrix: public node_opencv::Matrix{
+class Matrix: public Nan::ObjectWrap{
 public:
+  cv::Mat mat;
   static Nan::Persistent<FunctionTemplate> constructor;
   static void Init(Local<Object> target);
   static NAN_METHOD(New);
@@ -40,6 +40,7 @@ public:
   JSFUNC(Channels)
   JSFUNC(Clone)
   JSFUNC(Ellipse)
+  JSFUNC(Circle)
   JSFUNC(Rectangle)
   JSFUNC(Line)
   JSFUNC(Empty)

@@ -17,26 +17,45 @@ SegfaultHandler.registerHandler("crash.log", function(signal, address, stack) {
 var app = express();
 var server = http.Server(app);
 var io = SocketIO(server);
+// var camera = new cv.VideoCapture('rtsp://192.168.1.127:8554/unicast');
 var camera = new cv.VideoCapture('rtsp://172.16.20.120:8554/unicast');
+
 var videoEmitter = new EventEmitter();
 
 function encode_base64 (img) {
   return 'data:image/jpeg;base64,'+img.toBuffer().toString('base64');
 }
-// const IMAGE_DIR = '/Users/chenjianbin/dev/wdd/lego-brick-recognition/database/multi';
-const ITEM_DIR = `${__dirname}/database`;
-// var images = fs.readdirSync(IMAGE_DIR)
-//                .filter(p => p[0] != '.')
-//                .map(p => cv.imread(`${IMAGE_DIR}/${p}`));
-// var currentIndex = 0;
+
+const IMAGE_DIR = '/Users/chenjianbin/dev/wdd/lego-brick-recognition/database/multi';
+const ITEM_DIR = `${__dirname}/database/lego/parts`;
+var images = fs.readdirSync(IMAGE_DIR)
+               .filter(p => p[0] != '.')
+               .map(p => cv.imread(`${IMAGE_DIR}/${p}`));
+var currentIndex = 0;
 
 var items = fs.readdirSync(ITEM_DIR)
               .filter(p => p[0] != '.')
               .map(p => new Item(p));
+var frame = null;
 
-function getNextImage (callback) {
-  camera.read(callback);
+function getNextImage () {
+  currentIndex ++;
+  if (currentIndex > images.length) {
+    currentIndex = 1;
+  }
+
+  // return images[currentIndex - 1];
+  return frame;
 }
+function loop () {
+  camera.read((err, img) => {
+    if (err) throw err;
+
+    frame = img;
+    loop();
+  });
+}
+loop();
 
 server.listen(8123);
 console.log('listen...');
@@ -53,7 +72,6 @@ io.on('connection', function (socket) {
   var objects = [];
 
   socket.emit('initItems', items.map(item => {
-    console.log(item.uuid, item.image);
     return {
       uuid: item.uuid,
       image: encode_base64(item.image)
@@ -75,27 +93,22 @@ io.on('connection', function (socket) {
 
   socket.on('getNextFrame', function () {
     var img = getNextImage();
+    socket.emit('frame', {
+      image: encode_base64(img),
+      size: img.size()
+    });
+
     objects = objectDetector(img.copy());
-    var detectImage = img.copy();
     if (objects.length) {
       socket.emit('objectFound', objects.map(obj => {
         return {
           uuid: obj.uuid,
           image: encode_base64(obj.image),
           shapeImage: encode_base64(obj.shapeImage),
-          canny: encode_base64(obj.canny)
+          canny: encode_base64(obj.canny),
+          rect: obj.contour.minAreaRect()
         };
       }));
-
-      objects
-        .map(obj => obj.contour.minAreaRect())
-        .forEach(rect => {
-          for (var i = 0; i < 4; i++) {
-            let p1 = rect.points[i];
-            let p2 = rect.points[(i+1) % 4];
-            detectImage.line([p1.x, p1.y], [p2.x, p2.y], [255, 0,0], 5);
-          }
-        });
 
       setTimeout(function () {
         objects.forEach(obj => {
@@ -108,32 +121,49 @@ io.on('connection', function (socket) {
               };
             })
             .reduce((ret, item) => {
-                if (item.faces.length) {
-                  ret.push({
-                    uuid: item.uuid,
-                    image: encode_base64(item.image),
-                    faces: item.faces.map(face => {
-                      return {
-                        uuid: face.face.uuid,
-                        score: face.score,
-                        image: encode_base64(face.face.image)
-                      };
-                    })
-                  });
-                }
+              var matchedFaces = item.faces.filter(face => {
+                return face.score.contour < 0.2 && face.score.hist < 0.3;
+              });
 
-                return ret;
+              if (matchedFaces.length) {
+                ret.push({
+                  uuid: item.uuid,
+                  image: encode_base64(item.image),
+                  faces: matchedFaces.map(face => {
+                    return {
+                      uuid: face.face.uuid,
+                      score: face.score,
+                      image: encode_base64(face.face.image)
+                    };
+                  })
+                });
+              }
+
+              return ret;
             }, []);
-          socket.emit('score', {
+
+          var match = score.reduce((ret, item) => {
+            var face = _.min(item.faces, (f) => f.score.contour * f.score.hist);
+            var score = face.score.contour * face.score.hist;
+            if (!ret || score < ret.score) {
+              ret = {
+                score: score,
+                uuid: item.uuid,
+                image: item.image,
+                face
+              };
+            }
+
+            return ret;
+          }, null);
+          socket.emit('match', {
             uuid: obj.uuid,
-            score
+            score,
+            match
           });
         });
       }, 0);
     }
-    socket.emit('frame', {
-      image: encode_base64(detectImage)
-    });
   });
 
   videoEmitter.on('objectFound', function (data) {

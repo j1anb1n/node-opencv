@@ -1,0 +1,162 @@
+Color ID	Color Name	RGB	Type	Parts	In Sets	Wanted	For Sale	Year From	Year To
+
+0	(Not Applicable)		N/A	3111	8881	33805	8363	1954	2016
+41	Aqua	b5d3d6	Solid	86	52	290	121	1998	2006
+11	Black	212121	Solid	6973	8467	8131	7181	1957	2016
+7	Blue	0057a6	Solid	2936	5990	3849	3260	1950	2016
+97	Blue-Violet	506cef	Solid	37	17	168	56	2004	2005
+36	Bright Green	10cb31	Solid	364	930	662	421	1950	2016
+105	Bright Light Blue	9FC3E9	Solid	135	136	285	157	2004	2016
+110	Bright Light Orange	F7BA30	Solid	476	595	714	501	2000	2016
+103	Bright Light Yellow	F3E055	Solid	114	181	443	161	2003	2016
+104	Bright Pink	FFBBFF	Solid	281	381	452	303	2003	2016
+8	Brown	532115	Solid	560	1068	1595	837	1974	2006
+153	Dark Azure	3399FF	Solid	171	158	342	176	2000	2016
+63	Dark Blue	143044	Solid	1077	953	1618	1117	1961	2016
+109	Dark Blue-Violet	2032B0	Solid	7	5	134	18	2004	2006
+85	Dark Bluish Gray	595D60	Solid	2319	3575	3437	2528	1991	2016
+120	Dark Brown	330000	Solid	444	706	1131	471	2008	2016
+91	Dark Flesh	774125	Solid	40	26	266	59	2004	2006
+10	Dark Gray	6b5a5a	Solid	1015	1656	2261	1421	1961	2007
+80	Dark Green	2E5543	Solid	559	507	1226	622	1961	2016
+68	Dark Orange	b35408	Solid	405	796	766	417	1979	2016
+47	Dark Pink	C87080	Solid	411	524	538	467	1994	2016
+89	Dark Purple	5f2683	Solid	438	414	719	469	2003	2016
+59	Dark Red	6a0e15	Solid	1012	965	1648	1043	1961	2016
+69	Dark Tan	907450	Solid	579	1060	1219	589	1961	2016
+39	Dark Turquoise	008a80	Solid	151	101	316	210	1998	2015
+161	Dark Yellow	DD982E	Solid	3	3	55	13	2004	2005
+29	Earth Orange	E6881D	Solid	35	89	162	56	1982	2006
+106	Fabuland Brown	B3694E	Solid	7	27	66	18	1979	1997
+160	Fabuland Orange	EF9121	Solid	1	1	34	5	1983	1983
+28	Flesh	CC8062	Solid	74	104	290	102	1979	2016
+6	Green	00642e	Solid	1520	3527	2497	1756	1950	2016
+154	Lavender	CBA2C8	Solid	96	107	180	111	2011	2016
+152	Light Aqua	CCFFFF	Solid	127	98	203	130	2011	2016
+62	Light Blue	B4D2E3	Solid	51	48	262	109	1950	2007
+86	Light Bluish Gray	afb5c7	Solid	2565	3751	3952	2884	1993	2016
+90	Light Flesh	feccb0	Solid	737	705	1083	750	2003	2016
+9	Light Gray	9c9c9c	Solid	1779	3119	3108	2267	1954	2008
+38	Light Green	a5dbb5	Solid	67	64	206	116	1992	2007
+35	Light Lime	EbEE8F	Solid	18	15	84	46	1992	2007
+32	Light Orange	f7ad63	Solid	17	17	101	49	1998	2005
+56	Light Pink	FFE1FF	Solid	6	12	138	62	1994	2007
+93	Light Purple	DA70D6	Solid	22	11	106	41	2004	2007
+26	Light Salmon	FFDEDC	Solid	51	24	135	58	1997	2004
+40	Light Turquoise	31B5CA	Solid	38	31	112	74	1998	2004
+44	Light Violet	C9CAE2	Solid	65	39	125	84	1994	2004
+33	Light Yellow	ffe383	Solid	97	75	395	148	1994	2011
+34	Lime	A6CA55	Solid	1027	1185	1361	1109	1982	2016
+72	Maersk Blue	6BADD6	Solid	82	14	202	109	1974	2011
+71	Magenta	B52952	Solid	253	284	431	264	2000	2016
+156	Medium Azure	42C0FB	Solid	288	332	386	288	2012	2016
+42	Medium Blue	61afff	Solid	598	732	961	678	1950	2016
+150	Medium Dark Flesh	E78B3E	Solid	276	396	543	278	2010	2016
+94	Medium Dark Pink	F785B1	Solid	14	7	86	21	1992	1996
+37	Medium Green	62F58E	Solid	118	97	212	139	1950	2004
+157	Medium Lavender	B5A5D5	Solid	203	177	238	195	2012	2016
+76	Medium Lime	BDC618	Solid	63	36	116	71	1998	2005
+31	Medium Orange	FFA531	Solid	139	124	370	175	1950	2012
+73	Medium Violet	9391e4	Solid	24	27	66	33	1999	2005
+166	Neon Green	BCEF66	Solid			21	4		
+165	Neon Orange	FA5947	Solid			20			
+155	Olive Green	7C9051	Solid	310	173	572	303	2012	2016
+4	Orange	FF7E14	Solid	1269	1756	1856	1368	1993	2016
+23	Pink	FFC0CB	Solid	129	90	361	195	1991	2006
+24	Purple	a5499c	Solid	137	131	405	233	1996	2008
+5	Red	b30006	Solid	5105	7417	6116	5425	1950	2016
+88	Reddish Brown	89351d	Solid	1120	1990	1937	1259	1961	2016
+27	Rust	b52c20	Solid	10	12	140	25	1989	2001
+25	Salmon	f45c40	Solid	83	31	142	88	1997	2003
+55	Sand Blue	5a7184	Solid	327	238	706	366	2001	2016
+48	Sand Green	76a290	Solid	350	263	725	381	1964	2016
+54	Sand Purple	B57DA5	Solid	20	5	87	24	2001	2002
+58	Sand Red	8c6b6b	Solid	39	18	187	50	2001	2004
+87	Sky Blue	7DBFDD	Solid	28	16	100	40	2003	2007
+2	Tan	dec69c	Solid	1368	2431	2429	1560	1958	2016
+99	Very Light Bluish Gray	e4e8e8	Solid	50	45	741	70	2004	2013
+49	Very Light Gray	E8E8E8	Solid	21	24	292	57	1997	2004
+96	Very Light Orange	E6C05D	Solid	1	2	48	9	2000	2000
+43	Violet	3448a4	Solid	78	43	208	90	1992	2004
+1	White	FFFFFF	Solid	8848	7058	9649	8737	1950	2016
+3	Yellow	f7d117	Solid	4782	7240	5997	5294	1950	2016
+158	Yellowish Green	DFEEA5	Solid	46	53	111	51	2012	2016
+13	Trans-Black	939484	Transparent	325	1115	582	340	1999	2016
+108	Trans-Bright Green	10Cb31	Transparent	105	231	213	125	2003	2016
+12	Trans-Clear	EEEEEE	Transparent	587	3153	1192	803	1950	2016
+14	Trans-Dark Blue	00296B	Transparent	219	1241	562	266	1978	2016
+50	Trans-Dark Pink	CE1d9b	Transparent	164	334	202	162	1998	2016
+20	Trans-Green	217625	Transparent	131	1070	357	163	1969	2016
+15	Trans-Light Blue	68BCC5	Transparent	504	1603	783	575	1985	2016
+164	Trans-Light Orange	E99A3A	Transparent	41	19	93	50	2003	2006
+114	Trans-Light Purple	B97AB1	Transparent	10	11	105	26	2005	2006
+74	Trans-Medium Blue	7384A5	Transparent	94	175	271	144	2001	2016
+16	Trans-Neon Green	C0F500	Transparent	175	914	367	213	1990	2016
+18	Trans-Neon Orange	FF4231	Transparent	147	862	368	234	1993	2016
+121	Trans-Neon Yellow	FFD700	Transparent	17	22	149	63	2001	2005
+98	Trans-Orange	D04010	Transparent	138	978	327	188	2003	2016
+107	Trans-Pink	FF8298	Transparent	47	30	146	66	2003	2006
+51	Trans-Purple	8320B7	Transparent	104	171	224	118	2000	2016
+17	Trans-Red	9C0010	Transparent	153	2594	438	199	1969	2016
+113	Trans-Very Lt Blue	B7C8BF	Transparent	26	25	169	42	2003	2006
+19	Trans-Yellow	EBF72D	Transparent	129	1683	415	175	1969	2016
+57	Chrome Antique Brass	645a4c	Chrome	3	14	71	3	2001	2005
+122	Chrome Black	544E4F	Chrome	11	1	432	5	2009	2009
+52	Chrome Blue	5C66A4	Chrome	10	18	77	20	1998	2006
+21	Chrome Gold	f1f2e1	Chrome	46	252	620	59	1989	2016
+64	Chrome Green	3CB371	Chrome	1	2	104	5	1999	1999
+82	Chrome Pink	aa4d8e	Chrome	10	23	50	12	2001	2007
+22	Chrome Silver	DCDCDC	Chrome	101	534	887	153	1966	2016
+84	Copper	C66921	Pearl	30	53	557	66	2001	2012
+81	Flat Dark Gold	AD7118	Pearl	33	41	183	74	2003	2007
+95	Flat Silver	8D949C	Pearl	646	1362	1022	709	1998	2016
+78	Metal Blue	5686AE	Pearl	32	19	134	53	2002	2006
+77	Pearl Dark Gray	666660	Pearl	328	533	962	416	2002	2016
+115	Pearl Gold	e79500	Pearl	526	938	1097	579	2002	2016
+61	Pearl Light Gold	E7AE5A	Pearl	16	9	128	42	2000	2006
+66	Pearl Light Gray	ACB7C0	Pearl	426	612	1022	592	1993	2013
+119	Pearl Very Light Gray	D4D2CD	Pearl	4	5	91	49	2002	2003
+83	Pearl White	FFFFFF	Pearl	4	6	86	15	2003	2006
+65	Metallic Gold	B8860B	Metallic	51	152	612	106	1997	2016
+70	Metallic Green	bdb573	Metallic	19	5	73	34	2001	2003
+67	Metallic Silver	C0C0C0	Metallic	145	428	833	216	1957	2016
+46	Glow In Dark Opaque	d4d5c9	Milky	37	83	193	103	1990	2011
+118	Glow In Dark Trans	bdc6ad	Milky	14	21	106	20	2005	2011
+159	Glow In Dark White	d9d9d9	Milky	28	38	234	40	2012	2016
+60	Milky White	d4d3dd	Milky	26	96	124	56	1963	2008
+101	Glitter Trans-Clear	b2adaa	Glitter	14	21	48	16	1999	2016
+100	Glitter Trans-Dark Pink	ab43c3	Glitter	11	31	44	13	1999	2012
+162	Glitter Trans-Light Blue	68BCC5	Glitter	7	4	34	8	2015	2016
+163	Glitter Trans-Neon Green	C0F500	Glitter	1	5	40	3	2015	2016
+102	Glitter Trans-Purple	3A2B82	Glitter	7	16	42	9	2000	2016
+116	Speckle Black-Copper	5F4E47	Speckle	5	3	44	5	2006	2006
+151	Speckle Black-Gold	AB9421	Speckle	2	4	40	3	2010	2011
+111	Speckle Black-Silver	7C7E7C	Speckle	15	46	67	19	2005	2013
+117	Speckle DBGray-Silver	4A6363	Speckle	5	7	52	6	2006	2006
+142	Mx Aqua Green	27867E	Modulex			10	7		
+128	Mx Black	000000	Modulex			19	180		
+132	Mx Brown	907450	Modulex			20	27		
+133	Mx Buff	DEC69C	Modulex			16	39		
+126	Mx Charcoal Gray	595D60	Modulex			10	6		
+149	Mx Clear	FFFFFF	Modulex			20	46		
+139	Mx Lemon	BDC618	Modulex			8	24		
+124	Mx Light Bluish Gray	AfB5C7	Modulex			11	5		
+125	Mx Light Gray	9C9C9C	Modulex			22	67		
+136	Mx Light Orange	F7AD63	Modulex			13	4		
+137	Mx Light Yellow	FFE371	Modulex			13	5		
+144	Mx Medium Blue	61AFFF	Modulex			9	3		
+138	Mx Ochre Yellow	FED557	Modulex			15	16		
+140	Mx Olive Green	7C9051	Modulex			12	19		
+135	Mx Orange	F47B30	Modulex			12	25		
+145	Mx Pastel Blue	68AECE	Modulex			8	20		
+141	Mx Pastel Green	7DB538	Modulex			12	33		
+148	Mx Pink	F785B1	Modulex			11	15		
+130	Mx Pink Red	F45C40	Modulex			6	4		
+129	Mx Red	B52C20	Modulex			10	28		
+146	Mx Teal Blue	467083	Modulex			8	15		
+134	Mx Terracotta	5C5030	Modulex			10	36		
+143	Mx Tile Blue	0057A6	Modulex			7	1		
+131	Mx Tile Brown	330000	Modulex			10	1		
+127	Mx Tile Gray	6B5A5A	Modulex			11	75		
+147	Mx Violet	BD7D85	Modulex			17	2		
+123	Mx White	FFFFFF	Modulex			734	354		

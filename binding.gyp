@@ -22,7 +22,8 @@
         "src/ImgProc.cc",
         "src/Stereo.cc",
         "src/LDAWrap.cc",
-        "src/MatrixND.cc"
+        "src/MatrixND.cc",
+        "src/GeneralizedHough.cc"
       ],
 
       "libraries": [
